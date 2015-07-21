@@ -10,6 +10,9 @@ module CPU(dout,led,digi,switch,din,clk,button);
 	input	button;
 
 	wire reset = ~button;
+	wire slow_clk;
+	watchmaker #(4) slow_watch(slow_clk, clk);
+
 
 	wire	[31:0]ConBA;
 	wire	[31:0]DatabusA;
@@ -26,7 +29,7 @@ module CPU(dout,led,digi,switch,din,clk,button);
 							//output
 							.PC(PC),
 							//input
-							.clk(clk),
+							.clk(slow_clk),
 							.reset(reset),
 							.PCplus4(PCplus4),
 							.ConBA(ConBA),
@@ -111,7 +114,7 @@ module CPU(dout,led,digi,switch,din,clk,button);
 
 	RegFile regfile(
 			.reset(reset),
-			.clk(clk),
+			.clk(slow_clk),
 			.addr1(Rs),
 			.data1(DatabusA),
 			.addr2(addrb),
@@ -153,7 +156,7 @@ module CPU(dout,led,digi,switch,din,clk,button);
 
 	DataMem	datamem(
 			.reset(reset),
-			.clk(clk),
+			.clk(slow_clk),
 			.rd(MemRd),
 			.wr(MemWr),
 			.addr(ALUOut),
@@ -163,7 +166,7 @@ module CPU(dout,led,digi,switch,din,clk,button);
 
 	Peripheral peripheral(
 			.reset(reset),
-			.clk(clk),
+			.clk(slow_clk),
 			.rd(MemRd),
 			.wr(MemWr),
 			.addr(ALUOut),

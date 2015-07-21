@@ -14,7 +14,7 @@ module serial_transceiver(
 
 parameter BAUD_RATE = 9600,
           SAMPLE_RATIO = 16,
-          CLK_FREQUENCY = 100_000_000,
+          CLK_FREQUENCY = 25_000_000,
           LED_SCAN_RATE = 1000;
 
 // If BAUD_RATE = 9600, then
