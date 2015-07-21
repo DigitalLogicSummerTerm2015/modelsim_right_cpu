@@ -32,7 +32,7 @@ localparam WAIT_A = 2'd0,
            SEND   = 2'd3;
 
 // Build clocks.
-wire sample_clk, send_clk, led_scan_clk;
+wire sample_clk, send_clk;
 watchmaker #(SAMPLE_CLK_RATIO) sample_watch(sample_clk, clk);
 watchmaker #(SEND_CLK_RATIO) send_watch(send_clk, clk);
 
