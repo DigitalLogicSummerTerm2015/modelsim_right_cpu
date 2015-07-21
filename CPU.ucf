@@ -1,0 +1,40 @@
+NET "dout" LOC = N18;
+NET "din" LOC = N17;
+
+NET "led[7]" LOC = T11;
+NET "led[6]" LOC = R11;
+NET "led[5]" LOC = N11;
+NET "led[4]" LOC = M11;
+NET "led[3]" LOC = V15;
+NET "led[2]" LOC = U15;
+NET "led[1]" LOC = V16;
+NET "led[0]" LOC = U16;
+
+NET "digi[11]" LOC = P17;
+NET "digi[10]" LOC = P18;
+NET "digi[9]" LOC = N15;
+NET "digi[8]" LOC = N16;
+NET "digi[7]" LOC = T17;
+NET "digi[6]" LOC = T18;
+NET "digi[5]" LOC = U17;
+NET "digi[4]" LOC = U18;
+NET "digi[3]" LOC = M14;
+NET "digi[2]" LOC = N14;
+NET "digi[1]" LOC = L14;
+NET "digi[0]" LOC = M13;
+
+NET "switch[7]" LOC = T5;
+NET "switch[6]" LOC = V8;
+NET "switch[5]" LOC = U8;
+NET "switch[4]" LOC = N8;
+NET "switch[3]" LOC = M8;
+NET "switch[2]" LOC = V9;
+NET "switch[1]" LOC = T9;
+NET "switch[0]" LOC = T10;
+
+NET "button" LOC = B8;
+
+// System clock
+NET "clk" LOC = V10;
+NET "clk" TNM_NET = clk;
+TIMESPEC TS_clk = PERIOD "clk" 10 ns HIGH 5 ns;
