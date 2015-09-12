@@ -19,6 +19,7 @@ wire rst_n = ~tx_en;
 always @(posedge send_clk or negedge rst_n) begin
     if(~rst_n) begin
         counter <= 0;
+        shift_reg <= ~9'b0;
     end else begin
         if (counter == 4'b0)
             shift_reg <= {tx_data, 1'b0};  // Load data.

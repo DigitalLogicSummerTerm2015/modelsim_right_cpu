@@ -14,7 +14,7 @@ module serial_transceiver(
 
 parameter BAUD_RATE = 9600,
           SAMPLE_RATIO = 16,
-          CLK_FREQUENCY = 100_000_000,
+          CLK_FREQUENCY = 25_000_000,
           LED_SCAN_RATE = 1000;
 
 // If BAUD_RATE = 9600, then
@@ -32,7 +32,7 @@ localparam WAIT_A = 2'd0,
            SEND   = 2'd3;
 
 // Build clocks.
-wire sample_clk, send_clk, led_scan_clk;
+wire sample_clk, send_clk;
 watchmaker #(SAMPLE_CLK_RATIO) sample_watch(sample_clk, clk);
 watchmaker #(SEND_CLK_RATIO) send_watch(send_clk, clk);
 
