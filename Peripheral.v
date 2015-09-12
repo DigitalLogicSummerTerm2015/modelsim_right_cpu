@@ -54,7 +54,7 @@ always@(negedge reset or posedge clk) begin
 		result <= 8'b0;
 		tx_en <= 0;
 		led <= 8'b0;
-		digi <= 12'b1000_1011_1111;
+		digi <= 12'b1110_1100_0000;
 	end
 	else begin
 		if(TCON[0]) begin	//timer is enabled
