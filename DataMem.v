@@ -21,6 +21,7 @@ assign rdata=(rd && (addr < RAM_SIZE))?RAMDATA[addr[31:2]]:32'b0;
 
 always@(posedge clk) begin
 	if(wr && (addr < RAM_SIZE)) RAMDATA[addr[31:2]]<=wdata;
+
 end
 
 endmodule
