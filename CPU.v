@@ -1,18 +1,13 @@
 `timescale 1ns/1ps
 
-module CPU(dout,led,digi,switch,din,clk,button);
+module CPU(dout,led,digi,switch,din,clk,reset);
 	output	dout;
 	output	[7:0]led;
 	output	[11:0]digi;
 	input	[7:0]switch;
 	input	din;
 	input	clk;
-	input	button;
-
-	wire reset = ~button;
-	wire slow_clk;
-	watchmaker #(4) slow_watch(slow_clk, clk);
-
+	input	reset;
 
 	wire	[31:0]ConBA;
 	wire	[31:0]DatabusA;
@@ -29,27 +24,21 @@ module CPU(dout,led,digi,switch,din,clk,button);
 							//output
 							.PC(PC),
 							//input
-							.clk(slow_clk),
-							.reset(reset),
+							.clk(clk),
+							.reset(reset), 
 							.PCplus4(PCplus4),
-							.ConBA(ConBA),
-							.JT(JT),
-							.DatabusA(DatabusA),
-							.ILLOP(ILLOP),
-							.XADR(XADR),
-							.ALUOut(ALUOut[0]),
+							.ConBA(ConBA), 
+							.JT(JT), 
+							.DatabusA(DatabusA), 
+							.ILLOP(ILLOP), 
+							.XADR(XADR), 
+							.ALUOut(ALUOut[0]), 
 							.PCSrc(PCSrc)
 	);
 
 	wire	[31:0]Instruction;
 
-	/*InstructionMemorg instructionMemorg(
-								//output
-								.Instruction(Instruction),
-								//input
-								.PC(PC)
-	);*/
-
+	
 	ROM rom(
 	     .addr(PC),
 	     .data(Instruction)
@@ -96,7 +85,7 @@ module CPU(dout,led,digi,switch,din,clk,button);
 			.LUOp(LUOp),
 			//input
 			.Instruction(Instruction),
-			.IRQ(IRQ),
+			.IRQ(IRQ), 
 			.supervisor(PC[31])
 	);
 
@@ -107,14 +96,14 @@ module CPU(dout,led,digi,switch,din,clk,button);
 	wire	[4:0]addrb;
 	assign	addrb = (Instruction[31:26] == 6'h01) ? 0 : Rt;
 	wire	[4:0]addrc;
-	assign	addrc = (RegDst == 2'b00) ? Rd :
-					(RegDst == 2'b01) ? Rt :
-					(RegDst == 2'b10) ? Ra :
+	assign	addrc = (RegDst == 2'b00) ? Rd : 
+					(RegDst == 2'b01) ? Rt : 
+					(RegDst == 2'b10) ? Ra : 
 					Xp;
 
 	RegFile regfile(
 			.reset(reset),
-			.clk(slow_clk),
+			.clk(clk),
 			.addr1(Rs),
 			.data1(DatabusA),
 			.addr2(addrb),
@@ -144,9 +133,9 @@ module CPU(dout,led,digi,switch,din,clk,button);
 
 	alu alu1(
 		.Z(ALUOut),
-		.A(ALUin1),
-		.B(ALUin2),
-		.ALUFun(ALUFun),
+		.A(ALUin1), 
+		.B(ALUin2), 
+		.ALUFun(ALUFun), 
 		.Sign(Sign)
 	);
 
@@ -156,7 +145,7 @@ module CPU(dout,led,digi,switch,din,clk,button);
 
 	DataMem	datamem(
 			.reset(reset),
-			.clk(slow_clk),
+			.clk(clk),
 			.rd(MemRd),
 			.wr(MemWr),
 			.addr(ALUOut),
@@ -166,7 +155,7 @@ module CPU(dout,led,digi,switch,din,clk,button);
 
 	Peripheral peripheral(
 			.reset(reset),
-			.clk(slow_clk),
+			.clk(clk),
 			.rd(MemRd),
 			.wr(MemWr),
 			.addr(ALUOut),
@@ -175,16 +164,16 @@ module CPU(dout,led,digi,switch,din,clk,button);
 			.led(led),
 			.switch(switch),
 			.digi(digi),
-			.irqout(IRQ),
-			.din(din),
+			.irqout(IRQ), 
+			.din(din), 
 			.dout(dout)
 	);
 
 	assign	readdata = (ALUOut[31:28] == 4'b0100) ? readdata2 : readdata1;
 
-	assign writedata = (MemToReg == 2'b00) ? ALUOut :
-						(MemToReg == 2'b01) ? readdata :
-						(MemToReg == 2'b10) ? PCplus4 :
+	assign writedata = (MemToReg == 2'b00) ? ALUOut : 
+						(MemToReg == 2'b01) ? readdata : 
+						(MemToReg == 2'b10) ? PCplus4 : 
 						PC;
 
 endmodule
